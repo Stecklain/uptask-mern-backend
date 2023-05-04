@@ -14,7 +14,7 @@ dotenv.config();
 conectarDB();
 
 //Configurar CORS
-const whitelist = ["http://localhost:5173"];
+const whitelist = [process.env.FRONTEND_PC_URL, process.env.FRONTEND_NOTEBOOK_URL];
 
 const corsOptions = {
     origin: function (origin, callback) {

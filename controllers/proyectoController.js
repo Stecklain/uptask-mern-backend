@@ -8,6 +8,7 @@ const obtenerProyectos = async (req, res) => {
 
 const nuevoProyecto = async (req, res) => {
     const proyecto = new Proyecto(req.body);
+    console.log(proyecto);
     proyecto.creador = req.usuario._id;
 
     try {
@@ -24,21 +25,16 @@ const obtenerProyecto = async (req, res) => {
     const proyecto = await Proyecto.findById(id);
 
     if(!proyecto){
-        const error = new Error('No encontrado.');
+        const error = new Error('No encontrado');
         return res.status(404).json({ msg: error.message });
     }
 
     if(proyecto.creador.toString() !== req.usuario._id.toString()){
-        const error = new Error('Acción no válida.');
+        const error = new Error('Acción no válida');
         return res.status(401).json({ msg: error.message });
     }
 
-    const tareas = await Tarea.find().where("proyecto").equals(proyecto._id);
-
-    res.json({
-        proyecto,
-        tareas,
-    });
+    res.json(proyecto);
 };
 
 const editarProyecto = async (req, res) => {
@@ -47,12 +43,12 @@ const editarProyecto = async (req, res) => {
     const proyecto = await Proyecto.findById(id);
 
     if(!proyecto){
-        const error = new Error('No encontrado.');
+        const error = new Error('No encontrado');
         return res.status(404).json({ msg: error.message });
     }
 
     if(proyecto.creador.toString() !== req.usuario._id.toString()){
-        const error = new Error('Acción no válida.');
+        const error = new Error('Acción no válida');
         return res.status(401).json({ msg: error.message });
     }
 
@@ -75,18 +71,18 @@ const eliminarProyecto = async (req, res) => {
     const proyecto = await Proyecto.findById(id);
 
     if(!proyecto){
-        const error = new Error('No encontrado.');
+        const error = new Error('No encontrado');
         return res.status(404).json({ msg: error.message });
     }
 
     if(proyecto.creador.toString() !== req.usuario._id.toString()){
-        const error = new Error('Acción no válida.');
+        const error = new Error('Acción no válida');
         return res.status(401).json({ msg: error.message });
     }
 
     try {
         await proyecto.deleteOne();
-        res.json({ msg: "Proyecto eliminado." });
+        res.json({ msg: "Proyecto eliminado" });
     } catch (error) {
         console.log(error);
     }
